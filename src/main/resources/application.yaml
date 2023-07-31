@@ -1,0 +1,16 @@
+server:
+  address: localhost
+  port: 9091
+  shutdown: graceful
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ui-automation
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+    validation-query: SELECT 1
+  flyway:
+    baseline-on-migrate: true
+    enable: true
