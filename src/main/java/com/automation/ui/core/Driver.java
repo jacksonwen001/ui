@@ -43,6 +43,16 @@ public class Driver {
         this.url = url;
     }
 
+    public void start(String name, String version) {
+        if (Strings.isBlank(name))
+            throw new RuntimeException("name must not null");
+        if (Strings.isBlank(version))
+            throw new RuntimeException("version must not null");
+        Browser browser = browsers.get(name);
+        if (browser == null) throw new RuntimeException("browser must not null. ");
+        browser.start(version);
+    }
+
     private void startChrome(String version) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(START_MAXIMIZED);
@@ -94,13 +104,4 @@ public class Driver {
         }
     }
 
-    public void start(String name, String version) {
-        if (Strings.isBlank(name))
-            throw new RuntimeException("name must not null");
-        if (Strings.isBlank(version))
-            throw new RuntimeException("version must not null");
-        Browser browser = browsers.get(name);
-        if (browser == null) throw new RuntimeException("browser must not null. ");
-        browser.start(version);
-    }
 }

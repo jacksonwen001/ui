@@ -1,13 +1,15 @@
 package com.automation.ui.service.impl;
 
-import com.automation.ui.dto.project.CreateProjectRequest;
+import com.automation.ui.dto.project.ProjectCreateRequest;
+import com.automation.ui.dto.project.ProjectMigrateRequest;
 import com.automation.ui.dto.project.ProjectResponse;
 import com.automation.ui.dto.project.QueryProjectRequest;
 import com.automation.ui.dto.project.QueryProjectsResponse;
-import com.automation.ui.dto.project.UpdateProjectRequest;
-import com.automation.ui.model.Project;
+import com.automation.ui.dto.project.ProjectUpdateRequest;
+import com.automation.ui.models.Project;
 import com.automation.ui.repository.ProjectRepository;
 import com.automation.ui.service.ProjectService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void create(CreateProjectRequest request) {
+    public void create(ProjectCreateRequest request) {
         Project project = new Project();
         project.setName(request.getName());
         project.setDescription(request.getDescription());
@@ -69,13 +71,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void update(Long projectId, UpdateProjectRequest request) {
+    public void update(Long projectId, ProjectUpdateRequest request) {
         Project project = repository.findById(projectId).orElseThrow();
         Optional.ofNullable(request.getName()).ifPresent(project::setName);
         Optional.ofNullable(request.getDescription()).ifPresent(project::setDescription);
         project.setUpdatedAt(LocalDateTime.now());
         project.setUpdatedBy("ADMIN");
         repository.save(project);
+    }
+
+    @Transactional(rollbackOn = Exception.class)
+    @Override
+    public void migrate(ProjectMigrateRequest request) {
+
     }
 
 }
