@@ -10,10 +10,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
-@Table(name = "environments")
-public class Environment {
+@Table(name = "components")
+public class Component {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +24,23 @@ public class Environment {
     @Column(name = "project_id")
     public Long projectId;
 
+    @NotNull
+    @Column(name = "env_id")
+    public Long envId;
+
     @NotBlank
-    @Column(name = "env_name")
-    public String envName;
+    @Column(name = "name")
+    public String name;
+
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

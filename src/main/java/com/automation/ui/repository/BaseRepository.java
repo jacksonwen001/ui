@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProjectRepository extends BaseRepository<Project> {
-
+public interface BaseRepository<T> extends JpaRepository<T, Long> {
+    Page<Project> findAllByCreatedAtDesc(Specification<T> specification, Pageable pageable);
 }
